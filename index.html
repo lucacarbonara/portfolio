@@ -12,160 +12,80 @@
             --secondary: #7000ff;
             --bg: #050505;
             --card-bg: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --border: rgba(0, 242, 255, 0.15); /* Blu neon leggero */
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { background-color: var(--bg); color: white; font-family: 'Space Grotesk', sans-serif; overflow-x: hidden; }
 
-        body {
-            background-color: var(--bg);
-            color: white;
-            font-family: 'Space Grotesk', sans-serif;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* CURSORE REATTIVO */
+        /* CURSORE */
         #cursor {
-            position: fixed;
-            width: 12px;
-            height: 12px;
-            background: var(--primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            mix-blend-mode: difference;
-            transform: translate(-50%, -50%);
-            display: none;
-            left: 0; top: 0;
+            position: fixed; width: 12px; height: 12px; background: var(--primary);
+            border-radius: 50%; pointer-events: none; z-index: 9999;
+            mix-blend-mode: difference; transform: translate(-50%, -50%);
+            display: none; transition: transform 0.1s ease;
         }
-
-        @media (min-width: 1024px) {
-            #cursor { display: block; }
-            * { cursor: none !important; }
-        }
+        @media (min-width: 1024px) { body { cursor: none; } #cursor { display: block; } a { cursor: none; } }
 
         /* HERO */
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .hero h1 { font-family: 'Syncopate', sans-serif; font-size: clamp(2.5rem, 10vw, 10rem); line-height: 0.9; }
+        .hero h1 span { background: linear-gradient(90deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { margin-top: 20px; font-size: 0.8rem; letter-spacing: 8px; opacity: 0.5; text-transform: uppercase; }
 
-        .hero h1 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: clamp(3rem, 9vw, 11rem);
-            line-height: 0.85;
-        }
-
-        .hero h1 span {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            margin-top: 25px;
-            font-size: 0.9rem;
-            letter-spacing: 12px;
-            opacity: 0.6;
+        /* UNIFORMITÀ TITOLI */
+        .section { padding: 100px 8%; }
+        .work-title { 
+            font-family: 'Syncopate'; 
+            font-size: clamp(1.4rem, 4vw, 2.2rem); 
+            margin-bottom: 60px; 
+            text-align: center; 
+            color: var(--primary); /* Blu per tutti i titoli */
+            letter-spacing: 4px;
             text-transform: uppercase;
         }
 
-        /* PRESENTAZIONE */
-        .section { padding: 120px 10%; }
-        .story-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 80px;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+        /* GRID SYSTEM COERENTE */
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; max-width: 1300px; margin: 0 auto; }
+        @media (max-width: 1024px) { .grid-2 { grid-template-columns: 1fr; } }
 
-        .story-text h2 { font-family: 'Syncopate'; font-size: 2.5rem; margin-bottom: 30px; color: var(--primary); }
-        .story-text p { font-size: 1.25rem; line-height: 1.8; color: #ccc; margin-bottom: 25px; }
-
-        .cv-preview img { width: 100%; max-width: 380px; border-radius: 20px; border: 1px solid var(--border); transition: 0.4s; }
-        .cv-preview img:hover { border-color: var(--primary); }
-
-        /* WEB DEVELOPED SECTION (IDENTICI) */
-        .web-section { padding: 100px 8%; background: rgba(255, 255, 255, 0.01); }
-        .work-title { font-family: 'Syncopate'; font-size: 2.2rem; margin-bottom: 60px; text-align: center; letter-spacing: 5px; }
-
-        .web-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .browser-card-link { text-decoration: none; color: inherit; display: block; }
-
-        .browser-card {
-            background: #111;
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            overflow: hidden;
-            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
-            height: 100%;
-        }
-
-        .browser-header {
-            background: #1a1a1a;
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); margin-right: 6px; }
-        .url-bar { font-size: 0.6rem; color: #666; margin-left: 15px; font-family: monospace; }
-
-        .web-preview { width: 100%; height: 350px; background: #000; overflow: hidden; }
-        .web-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.6s; }
-
-        .web-info { padding: 30px; }
-        .web-info h3 { font-family: 'Syncopate'; font-size: 1.2rem; color: var(--primary); margin-bottom: 10px; }
-        .tag { font-size: 0.65rem; border: 1px solid var(--primary); color: var(--primary); padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 15px; font-weight: 700; }
-
-        .browser-card:hover { transform: translateY(-15px); border-color: var(--primary); }
-        .browser-card:hover img { opacity: 1; transform: scale(1.05); }
-
-        /* VISUAL WORKS (IDENTICI) */
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .project-card {
+        /* CARD UNIFICATE (WEB & VISUAL) */
+        .main-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 28px;
-            padding: 30px;
-            transition: 0.5s ease;
-            text-decoration: none;
-            color: inherit;
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none; color: inherit; display: flex; flex-direction: column;
         }
+        .main-card:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0, 242, 255, 0.1); }
 
-        .img-box { width: 100%; height: 420px; border-radius: 18px; overflow: hidden; margin-bottom: 25px; }
-        .img-box img { width: 100%; height: 100%; object-fit: contain; transition: 0.6s; }
+        .img-wrap { width: 100%; height: 350px; background: #000; overflow: hidden; border-bottom: 1px solid var(--border); }
+        .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; opacity: 0.8; }
+        .main-card:hover img { opacity: 1; transform: scale(1.05); }
+        .visual-img img { object-fit: contain; padding: 20px; } /* Per i loghi/grafica */
 
-        .project-card:hover { transform: translateY(-15px); border-color: var(--primary); }
+        .card-body { padding: 30px; flex-grow: 1; }
+        .card-body .tag { font-size: 0.65rem; color: var(--primary); border: 1px solid var(--primary); padding: 4px 12px; border-radius: 4px; font-weight: 700; margin-bottom: 15px; display: inline-block; }
+        .card-body h3 { font-family: 'Syncopate'; font-size: 1.2rem; margin-bottom: 12px; }
+        .card-body p { font-size: 1rem; opacity: 0.6; line-height: 1.6; margin-bottom: 20px; }
+        
+        .tech-stack { font-size: 0.7rem; font-weight: bold; color: var(--secondary); letter-spacing: 1px; text-transform: uppercase; }
 
-        .btn { padding: 18px 45px; background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; text-transform: uppercase; display: inline-block; }
+        /* SKILLS STRATEGY */
+        .skills-bar { background: rgba(112, 0, 255, 0.05); padding: 40px; border-radius: 20px; text-align: center; margin: 40px auto; max-width: 1000px; border: 1px dashed var(--secondary); }
+        .skills-bar span { margin: 0 15px; font-weight: bold; font-size: 0.9rem; opacity: 0.8; }
 
-        @media (max-width: 1024px) {
-            .story-grid, .portfolio-grid, .web-grid { grid-template-columns: 1fr; }
-            .img-box, .web-preview { height: 300px; }
+        /* BUTTONS */
+        .btn-group { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        .btn { 
+            padding: 18px 40px; border-radius: 50px; font-weight: bold; text-decoration: none; text-transform: uppercase; font-size: 0.8rem; transition: 0.3s;
         }
+        .btn-primary { background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; }
+        .btn-outline { border: 1px solid var(--primary); color: var(--primary); }
+        .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+
+        footer { padding: 60px; text-align: center; border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
@@ -174,97 +94,97 @@
 
     <section class="hero">
         <h1>LUCA<br><span>CARBONARA</span></h1>
-        <p>DREAMER | CODER | DESIGNER</p>
+        <p>Full-Stack Developer | Brand Identity Specialist</p>
     </section>
 
     <section class="section">
-        <div class="story-grid">
-            <div class="story-text">
-                <h2>Percorso.</h2>
-                <p>Diplomato in Grafica al <strong>Carlo Urbani</strong>, ho scelto di non fermarmi alla carta. Ho imparato a programmare per dare vita alle mie visioni.</p>
-                <p>Ogni sito che vedi qui sotto è stato progettato e scritto da me, senza l'aiuto di team esterni. <strong>Full control, full passion.</strong></p>
+        <div class="grid-2" style="align-items: center;">
+            <div>
+                <h2 class="work-title" style="text-align: left;">PERCORSO</h2>
+                <p style="font-size: 1.2rem; line-height: 1.8; color: #ccc;">
+                    Diplomato in Grafica, ho scelto di non fermarmi all'immagine statica. Ho unito il rigore del design del <strong>Carlo Urbani</strong> alla logica dello sviluppo Web. <br><br>
+                    Costruisco soluzioni digitali complete: dalla strategia di branding iniziale al codice finale, garantendo coerenza totale e performance elevate.
+                </p>
+                <div class="skills-bar">
+                    <span>HTML5 / CSS3</span> <span>•</span> <span>JAVASCRIPT ES6</span> <span>•</span> <span>GSAP</span> <span>•</span> <span>UI/UX DESIGN</span> <span>•</span> <span>ADOBE SUITE</span>
+                </div>
+                <div class="btn-group" style="justify-content: flex-start;">
+                    <a href="Il_Mio_Curriculum.jpg" download class="btn btn-primary">Download CV</a>
+                    <a href="mailto:lucacarbonara33@gmail.com" class="btn btn-outline">Contattami</a>
+                </div>
             </div>
-            <div class="cv-preview">
-                <img src="Il_Mio_Curriculum.jpg" alt="CV Luca Carbonara">
-                <br><br>
-                <a href="Il_Mio_Curriculum.jpg" download class="btn">Download CV</a>
+            <div style="text-align: center;">
+                <img src="Il_Mio_Curriculum.jpg" style="width: 100%; max-width: 350px; border-radius: 24px; box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);">
             </div>
         </div>
     </section>
 
-    <section class="web-section">
-        <h2 class="work-title">WEB DEVELOPED (SOLO)</h2>
-        <div class="web-grid">
-            
-            <a href="https://dszenith.github.io/gaemoji/" target="_blank" class="browser-card-link">
-                <div class="browser-card">
-                    <div class="browser-header">
-                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                        <span class="url-bar">dszenith.github.io/gaemoji</span>
-                    </div>
-                    <div class="web-preview">
-                        <img src="gaemoji_thumb.jpg" alt="Gaemoji Site">
-                    </div>
-                    <div class="web-info">
-                        <span class="tag">Solo Project</span>
-                        <h3>Gaemoji Site</h3>
-                        <p>Web app per gaming rilassante. UX pulita e interazioni fluide costruite da zero.</p>
-                    </div>
+    <section class="section" style="background: rgba(255,255,255,0.01);">
+        <h2 class="work-title">Web Development (Solo)</h2>
+        <div class="grid-2">
+            <a href="https://dszenith.github.io/gaemoji/" target="_blank" class="main-card">
+                <div class="img-wrap"><img src="gaemoji_thumb.jpg" alt="Gaemoji"></div>
+                <div class="card-body">
+                    <span class="tag">Solo Project</span>
+                    <h3>Gaemoji Relax</h3>
+                    <p>Web app dedicata al casual gaming. Interfaccia minimalista e gestione fluida degli eventi JS.</p>
+                    <div class="tech-stack">Tech: Vanilla JS / CSS Grid / Mobile First</div>
                 </div>
             </a>
-
-            <a href="https://dszenith.github.io/com/" target="_blank" class="browser-card-link">
-                <div class="browser-card">
-                    <div class="browser-header">
-                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-                        <span class="url-bar">dszenith.github.io/com</span>
-                    </div>
-                    <div class="web-preview">
-                        <img src="zenith_thumb.jpg" alt="Zenith Discord Site">
-                    </div>
-                    <div class="web-info">
-                        <span class="tag">Solo Project</span>
-                        <h3>Zenith Discord Community</h3>
-                        <p>Sito vetrina per community Discord. Design aggressivo e layout moderno.</p>
-                    </div>
+            <a href="https://dszenith.github.io/com/" target="_blank" class="main-card">
+                <div class="img-wrap"><img src="zenith_thumb.jpg" alt="Zenith"></div>
+                <div class="card-body">
+                    <span class="tag">Solo Project</span>
+                    <h3>Zenith Community</h3>
+                    <p>Hub digitale per server Discord. Design futuristico ad alto impatto visivo e ottimizzazione SEO.</p>
+                    <div class="tech-stack">Tech: HTML5 / Custom Animations / Webflow-style</div>
                 </div>
             </a>
-
         </div>
     </section>
 
     <section class="section">
-        <h2 class="work-title">VISUAL WORKS</h2>
-        <div class="portfolio-grid">
-            <a href="ZENITH_LOGO.jpg" target="_blank" class="project-card">
-                <div class="img-box"><img src="ZENITH_LOGO.jpg" alt="Zenith"></div>
-                <h3>Zenith Concept</h3>
-                <p>Branding e Visual Identity.</p>
+        <h2 class="work-title">Visual & Brand Design</h2>
+        <div class="grid-2">
+            <a href="ZENITH_LOGO.jpg" target="_blank" class="main-card">
+                <div class="img-wrap visual-img"><img src="ZENITH_LOGO.jpg" alt="Zenith Logo"></div>
+                <div class="card-body">
+                    <span class="tag">Visual Identity</span>
+                    <h3>Zenith Concept</h3>
+                    <p>Sviluppo logo e identità visiva. Focus su scalabilità e riconoscibilità del brand nel settore tech.</p>
+                    <div class="tech-stack">Software: Photoshop / Illustrator</div>
+                </div>
             </a>
-            <a href="KES.jpg" target="_blank" class="project-card">
-                <div class="img-box"><img src="KES.jpg" alt="KES"></div>
-                <h3>KES Soluzioni</h3>
-                <p>Corporate design e ottimizzazione team.</p>
+            <a href="KES.jpg" target="_blank" class="main-card">
+                <div class="img-wrap visual-img"><img src="KES.jpg" alt="KES Project"></div>
+                <div class="card-body">
+                    <span class="tag">Corporate Design</span>
+                    <h3>KES Soluzioni</h3>
+                    <p>Restyling dell'immagine aziendale per migliorare la comunicazione professionale verso i partner.</p>
+                    <div class="tech-stack">Software: Canva</div>
+                </div>
             </a>
         </div>
     </section>
 
-    <footer style="padding: 50px; text-align: center; opacity: 0.3; font-size: 0.8rem; letter-spacing: 2px;">
-        &copy; 2026 LUCA CARBONARA — ROMA
+    <footer>
+        <p style="opacity: 0.4; font-size: 0.8rem; letter-spacing: 2px;">© 2026 LUCA CARBONARA — DISPONIBILE PER NUOVE SFIDE</p>
+        <br>
+        <a href="mailto:tuaemail@esempio.com" style="color: var(--primary); text-decoration: none; font-weight: bold;">lucacarbonara33@gmail.com</a>
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
         const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        document.querySelectorAll('a').forEach(el => {
-            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, duration: 0.3 }));
-            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.3 }));
-        });
+        if (window.innerWidth > 1024) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.left = e.clientX + 'px';
+                cursor.style.top = e.clientY + 'px';
+            });
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('mouseenter', () => cursor.style.transform = 'translate(-50%, -50%) scale(4)');
+                link.addEventListener('mouseleave', () => cursor.style.transform = 'translate(-50%, -50%) scale(1)');
+            });
+        }
     </script>
 </body>
 </html>
