@@ -5,20 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Luca Carbonara | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=Syncopate:wght@700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+    
     <style>
         :root {
             --primary: #00f2ff;
             --secondary: #7000ff;
             --bg: #050505;
             --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
-        /* Cursore: rimosso il delay via CSS per massima reattività */
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* CURSORE REATTIVO */
         #cursor {
             position: fixed;
             width: 12px;
@@ -28,18 +35,17 @@
             pointer-events: none;
             z-index: 9999;
             mix-blend-mode: difference;
-            display: none; /* Nascosto di base, attivato via JS solo su desktop */
+            transform: translate(-50%, -50%);
+            display: none;
+            left: 0; top: 0;
         }
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--bg);
-            color: white;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
+        @media (min-width: 1024px) {
+            #cursor { display: block; }
+            * { cursor: none !important; }
         }
 
-        /* Hero */
+        /* HERO */
         .hero {
             height: 100vh;
             display: flex;
@@ -47,14 +53,12 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 20px;
         }
 
         .hero h1 {
             font-family: 'Syncopate', sans-serif;
-            font-size: clamp(3rem, 8vw, 10rem);
-            line-height: 0.9;
-            margin-bottom: 20px;
+            font-size: clamp(3rem, 9vw, 11rem);
+            line-height: 0.85;
         }
 
         .hero h1 span {
@@ -63,87 +67,104 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Sezione Storia */
-        .section { padding: 80px 8%; }
-        
-        .story-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            align-items: center;
+        .hero p {
+            margin-top: 25px;
+            font-size: 0.9rem;
+            letter-spacing: 12px;
+            opacity: 0.6;
+            text-transform: uppercase;
         }
 
-        .story-text h2 { font-size: clamp(2rem, 4vw, 3.5rem); margin-bottom: 20px; font-family: 'Syncopate'; }
-        .story-text p { font-size: 1.1rem; line-height: 1.6; color: #ccc; margin-bottom: 20px; }
+        /* PRESENTAZIONE */
+        .section { padding: 120px 10%; }
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 80px;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-        /* Portfolio */
-        .work-title { font-family: 'Syncopate'; font-size: 2.5rem; margin-bottom: 60px; text-align: center; }
-        
+        .story-text h2 { font-family: 'Syncopate'; font-size: 2.5rem; margin-bottom: 30px; color: var(--primary); }
+        .story-text p { font-size: 1.25rem; line-height: 1.8; color: #ccc; margin-bottom: 25px; }
+
+        .cv-preview img { width: 100%; max-width: 380px; border-radius: 20px; border: 1px solid var(--border); transition: 0.4s; }
+        .cv-preview img:hover { border-color: var(--primary); }
+
+        /* WEB DEVELOPED SECTION (IDENTICI) */
+        .web-section { padding: 100px 8%; background: rgba(255, 255, 255, 0.01); }
+        .work-title { font-family: 'Syncopate'; font-size: 2.2rem; margin-bottom: 60px; text-align: center; letter-spacing: 5px; }
+
+        .web-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .browser-card-link { text-decoration: none; color: inherit; display: block; }
+
+        .browser-card {
+            background: #111;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+            height: 100%;
+        }
+
+        .browser-header {
+            background: #1a1a1a;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); margin-right: 6px; }
+        .url-bar { font-size: 0.6rem; color: #666; margin-left: 15px; font-family: monospace; }
+
+        .web-preview { width: 100%; height: 350px; background: #000; overflow: hidden; }
+        .web-preview img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.6s; }
+
+        .web-info { padding: 30px; }
+        .web-info h3 { font-family: 'Syncopate'; font-size: 1.2rem; color: var(--primary); margin-bottom: 10px; }
+        .tag { font-size: 0.65rem; border: 1px solid var(--primary); color: var(--primary); padding: 3px 10px; border-radius: 4px; display: inline-block; margin-bottom: 15px; font-weight: 700; }
+
+        .browser-card:hover { transform: translateY(-15px); border-color: var(--primary); }
+        .browser-card:hover img { opacity: 1; transform: scale(1.05); }
+
+        /* VISUAL WORKS (IDENTICI) */
         .portfolio-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            width: 100%;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1300px;
+            margin: 0 auto;
         }
 
         .project-card {
             background: var(--card-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 20px;
-            padding: 20px;
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease, filter 0.4s ease;
-            position: relative;
-            z-index: 1; /* Tutte le card partono dallo stesso livello */
-        }
-
-        /* Fix Posizionamento: La card selezionata va sopra le altre senza spostare nulla */
-        .project-card:hover { 
-            z-index: 10;
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        /* Spotlight: Solo se non siamo su mobile (per evitare glitch al touch) */
-        @media (min-width: 1024px) {
-            .portfolio-grid:hover .project-card:not(:hover) {
-                opacity: 0.3;
-                filter: blur(2px);
-            }
-            #cursor { display: block; }
-            * { cursor: none; } /* Nasconde cursore di sistema solo su desktop */
-        }
-
-        .project-img {
-            width: 100%;
-            height: 300px;
-            background: #000;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            object-fit: contain; /* Proporzioni perfette */
-        }
-
-        .project-card h3 { font-family: 'Syncopate'; font-size: 1.1rem; color: var(--primary); margin-bottom: 10px; }
-
-        /* CV Button */
-        .cv-wrap { text-align: center; margin-top: 20px; }
-        .cv-img { width: 100%; max-width: 350px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 20px; }
-        
-        .btn-premium {
-            padding: 12px 30px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 30px;
+            transition: 0.5s ease;
             text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            display: inline-block;
+            color: inherit;
         }
 
-        @media (max-width: 768px) {
-            .section { padding: 50px 5%; }
-            .work-title { font-size: 1.8rem; }
-            .project-img { height: 250px; }
+        .img-box { width: 100%; height: 420px; border-radius: 18px; overflow: hidden; margin-bottom: 25px; }
+        .img-box img { width: 100%; height: 100%; object-fit: contain; transition: 0.6s; }
+
+        .project-card:hover { transform: translateY(-15px); border-color: var(--primary); }
+
+        .btn { padding: 18px 45px; background: linear-gradient(90deg, var(--primary), var(--secondary)); color: white; text-decoration: none; border-radius: 50px; font-weight: 700; text-transform: uppercase; display: inline-block; }
+
+        @media (max-width: 1024px) {
+            .story-grid, .portfolio-grid, .web-grid { grid-template-columns: 1fr; }
+            .img-box, .web-preview { height: 300px; }
         }
     </style>
 </head>
@@ -153,81 +174,96 @@
 
     <section class="hero">
         <h1>LUCA<br><span>CARBONARA</span></h1>
-        <p style="letter-spacing: 3px; opacity: 0.6; text-transform: uppercase;">Creative Designer & Coder</p>
+        <p>DREAMER | CODER | DESIGNER</p>
     </section>
 
-    <section id="about" class="section">
+    <section class="section">
         <div class="story-grid">
             <div class="story-text">
-                <h2>Visione.</h2>
-                <p>Diplomato in <strong>Grafica al Carlo Urbani</strong>, ho trasformato la teoria in pratica diventando un <strong>Web Designer autodidatta</strong>.</p>
-                <p>Non mi accontento del "bello". Cerco l'eccellenza funzionale, dove ogni animazione e ogni pixel servono a raccontare una storia premium.</p>
+                <h2>Percorso.</h2>
+                <p>Diplomato in Grafica al <strong>Carlo Urbani</strong>, ho scelto di non fermarmi alla carta. Ho imparato a programmare per dare vita alle mie visioni.</p>
+                <p>Ogni sito che vedi qui sotto è stato progettato e scritto da me, senza l'aiuto di team esterni. <strong>Full control, full passion.</strong></p>
             </div>
-            <div class="cv-wrap">
-                <img src="Il_Mio_Curriculum.jpg" class="cv-img" alt="CV Luca Carbonara">
-                <br>
-                <a href="Il_Mio_Curriculum.jpg" download class="btn-premium">DOWNLOAD CV</a>
+            <div class="cv-preview">
+                <img src="Il_Mio_Curriculum.jpg" alt="CV Luca Carbonara">
+                <br><br>
+                <a href="Il_Mio_Curriculum.jpg" download class="btn">Download CV</a>
             </div>
+        </div>
+    </section>
+
+    <section class="web-section">
+        <h2 class="work-title">WEB DEVELOPED (SOLO)</h2>
+        <div class="web-grid">
+            
+            <a href="https://dszenith.github.io/gaemoji/" target="_blank" class="browser-card-link">
+                <div class="browser-card">
+                    <div class="browser-header">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        <span class="url-bar">dszenith.github.io/gaemoji</span>
+                    </div>
+                    <div class="web-preview">
+                        <img src="gaemoji_thumb.jpg" alt="Gaemoji Site">
+                    </div>
+                    <div class="web-info">
+                        <span class="tag">Solo Project</span>
+                        <h3>Gaemoji Site</h3>
+                        <p>Web app per gaming rilassante. UX pulita e interazioni fluide costruite da zero.</p>
+                    </div>
+                </div>
+            </a>
+
+            <a href="https://dszenith.github.io/com/" target="_blank" class="browser-card-link">
+                <div class="browser-card">
+                    <div class="browser-header">
+                        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+                        <span class="url-bar">dszenith.github.io/com</span>
+                    </div>
+                    <div class="web-preview">
+                        <img src="zenith_thumb.jpg" alt="Zenith Discord Site">
+                    </div>
+                    <div class="web-info">
+                        <span class="tag">Solo Project</span>
+                        <h3>Zenith Discord Community</h3>
+                        <p>Sito vetrina per community Discord. Design aggressivo e layout moderno.</p>
+                    </div>
+                </div>
+            </a>
+
         </div>
     </section>
 
     <section class="section">
-        <h2 class="work-title">PROJECTS</h2>
+        <h2 class="work-title">VISUAL WORKS</h2>
         <div class="portfolio-grid">
-            
-            <a href="ZENITH_LOGO.jpg" target="_blank" style="text-decoration: none; color: inherit;">
-                <div class="project-card">
-                    <img src="ZENITH_LOGO.jpg" class="project-img" alt="Zenith">
-                    <h3>Zenith Concept</h3>
-                    <p style="font-size: 0.9rem; opacity: 0.7;">Visual Identity & Branding</p>
-                </div>
+            <a href="ZENITH_LOGO.jpg" target="_blank" class="project-card">
+                <div class="img-box"><img src="ZENITH_LOGO.jpg" alt="Zenith"></div>
+                <h3>Zenith Concept</h3>
+                <p>Branding e Visual Identity.</p>
             </a>
-
-            <a href="KES.jpg" target="_blank" style="text-decoration: none; color: inherit;">
-                <div class="project-card">
-                    <img src="KES.jpg" class="project-img" alt="KES">
-                    <h3>KES Soluzioni</h3>
-                    <p style="font-size: 0.9rem; opacity: 0.7;">Corporate Identity Restyling</p>
-                </div>
+            <a href="KES.jpg" target="_blank" class="project-card">
+                <div class="img-box"><img src="KES.jpg" alt="KES"></div>
+                <h3>KES Soluzioni</h3>
+                <p>Corporate design e ottimizzazione team.</p>
             </a>
-
         </div>
     </section>
 
+    <footer style="padding: 50px; text-align: center; opacity: 0.3; font-size: 0.8rem; letter-spacing: 2px;">
+        &copy; 2026 LUCA CARBONARA — ROMA
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // Cursore Reattivo (Zero ritardo nel posizionamento base)
         const cursor = document.getElementById('cursor');
-        
-        if (window.innerWidth > 1024) {
-            window.addEventListener('mousemove', (e) => {
-                // Usiamo x e y diretti invece di GSAP per il movimento base per massima velocità
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
 
-            // GSAP solo per le animazioni di scala (che non influenzano la latenza percepita)
-            document.querySelectorAll('a, .project-card').forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    gsap.to(cursor, { scale: 4, duration: 0.2 });
-                });
-                el.addEventListener('mouseleave', () => {
-                    gsap.to(cursor, { scale: 1, duration: 0.2 });
-                });
-            });
-        }
-
-        // Animazioni Scroll
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.from(".project-card", {
-            scrollTrigger: {
-                trigger: ".portfolio-grid",
-                start: "top 85%",
-            },
-            y: 50,
-            opacity: 0,
-            duration: 0.8,
-            stagger: 0.15,
-            ease: "power2.out"
+        document.querySelectorAll('a').forEach(el => {
+            el.addEventListener('mouseenter', () => gsap.to(cursor, { scale: 5, duration: 0.3 }));
+            el.addEventListener('mouseleave', () => gsap.to(cursor, { scale: 1, duration: 0.3 }));
         });
     </script>
 </body>
